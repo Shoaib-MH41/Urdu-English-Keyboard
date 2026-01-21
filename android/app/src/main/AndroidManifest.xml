@@ -1,22 +1,23 @@
-<service
-    android:permission="android.permission.BIND_INPUT_METHOD"
-    android:exported="true">
-    <intent-filter>
-        <action android:name="android.view.InputMethod" />
-    </intent-filter>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="your.package.name">
 
-    <meta-data
-        android:name="android.view.im"
-        android:resource="@xml/method" />
-<service
-    android:name=".UrduEnglishIME"
-    android:permission="android.permission.BIND_INPUT_METHOD"
-    android:exported="true">
-    <intent-filter>
-        <action android:name="android.view.InputMethod" />
-    </intent-filter>
+    <application
+        android:label="Urdu English Keyboard"
+        android:icon="@mipmap/ic_launcher">
 
-    <meta-data
-        android:name="android.view.im"
-        android:resource="@xml/method" />
-</service>
+        <service
+            android:name=".UrduEnglishIME"
+            android:permission="android.permission.BIND_INPUT_METHOD"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+        </service>
+
+    </application>
+</manifest>
