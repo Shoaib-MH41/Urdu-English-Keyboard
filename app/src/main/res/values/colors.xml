@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="kb_background">#1A1A1B</color>
+    <color name="key_background">#333333</color>
+    <color name="key_text_color">#FFFFFF</color>
+    <color name="key_shadow">#000000</color>
+    <color name="accent_color">#00ADB5</color> </resources>
