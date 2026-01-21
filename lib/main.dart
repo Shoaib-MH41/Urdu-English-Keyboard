@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
-import 'keyboard/keyboard_view.dart';
+import 'keyboard_view.dart';
 
 void main() {
-  runApp(const UrduKeyboardApp());
+  runApp(const KeyboardApp());
 }
 
-class UrduKeyboardApp extends StatelessWidget {
-  const UrduKeyboardApp({super.key});
+class KeyboardApp extends StatelessWidget {
+  const KeyboardApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      home: const Scaffold(
+      home: Scaffold(
         backgroundColor: Colors.black,
-        body: SafeArea(
-          child: UrduKeyboardView(),
-        ),
+        body: SafeArea(child: KeyboardView()),
       ),
     );
   }
