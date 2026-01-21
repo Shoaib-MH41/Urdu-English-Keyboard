@@ -2,25 +2,28 @@ package com.urdu.keyboard
 
 import android.inputmethodservice.InputMethodService
 import android.view.View
-import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
 
 class UrduInputService : InputMethodService() {
 
+    private lateinit var mainLayout: LinearLayout
+
     override fun onCreateInputView(): View {
-        // اپنا ڈیزائن لوڈ کریں
-        val keyboardView = layoutInflater.inflate(R.layout.keyboard_main, null)
-        return keyboardView
+        mainLayout = layoutInflater.inflate(R.layout.keyboard_main, null) as LinearLayout
+        renderKeyboard()
+        return mainLayout
     }
 
-    // حروف ٹائپ کرنے کا فنکشن
-    fun sendKey(char: String) {
-        val ic = currentInputConnection
-        ic?.commitText(char, 1)
+    fun renderKeyboard() {
+        // یہاں ہم پرانے بٹن صاف کر کے نئے حروف لوڈ کریں گے
+        val rows = if (KeyboardState.currentLanguage == KeyboardLanguage.URDU) 
+            KeyboardLogic.urduRows else KeyboardLogic.englishRows
+        
+        // بٹن بنانے اور لے آؤٹ میں شامل کرنے کا لاجک یہاں آئے گا
     }
-
-    // بیک اسپیس کے لیے
-    fun deleteChar() {
-        val ic = currentInputConnection
-        ic?.deleteSurroundingText(1, 0)
+    
+    fun onLanguageChange() {
+        KeyboardState.toggleLanguage()
+        renderKeyboard() // زبان بدلتے ہی کی بورڈ ری فریش ہو جائے گا
     }
 }
