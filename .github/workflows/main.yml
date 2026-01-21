@@ -1,4 +1,4 @@
-name: Flutter Build APK
+name: Build APK (Android IME)
 
 on:
   push:
@@ -9,36 +9,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v4
         with:
-          channel: stable
-          cache: true
+          distribution: 'temurin'
+          java-version: '17'
 
-      # ✅ Create FULL Flutter app (first time)
-      - name: Create Flutter App Structure
-        run: flutter create urdu_english_keyboard
+      - name: Grant execute permission
+        run: chmod +x android/gradlew
 
-      - name: Move project files to root
+      - name: Build Debug APK
         run: |
-          shopt -s dotglob
-          mv urdu_english_keyboard/* .
-          rm -rf urdu_english_keyboard
+          cd android
+          ./gradlew assembleDebug
 
-      - name: Flutter doctor
-        run: flutter doctor -v
-
-      - name: Get dependencies
-        run: flutter pub get
-
-      - name: Build debug APK
-        run: flutter build apk --debug
-
-      - name: Upload APK artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: urdu-english-keyboard-apk
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
