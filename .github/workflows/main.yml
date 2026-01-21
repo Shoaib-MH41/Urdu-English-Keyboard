@@ -21,8 +21,8 @@ jobs:
       - name: Flutter doctor
         run: flutter doctor -v
 
-      - name: Generate Android & Gradle files
-        run: flutter create .
+      - name: Generate Android & Gradle files (FIXED)
+        run: flutter create . --project-name urdu_english_keyboard
 
-      - name: List android folder
+      - name: Show android folder
         run: ls -R android
