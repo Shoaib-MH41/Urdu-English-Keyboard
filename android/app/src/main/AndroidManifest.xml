@@ -9,4 +9,15 @@
     <meta-data
         android:name="android.view.im"
         android:resource="@xml/method" />
+<service
+    android:name=".UrduEnglishIME"
+    android:permission="android.permission.BIND_INPUT_METHOD"
+    android:exported="true">
+    <intent-filter>
+        <action android:name="android.view.InputMethod" />
+    </intent-filter>
+
+    <meta-data
+        android:name="android.view.im"
+        android:resource="@xml/method" />
 </service>
