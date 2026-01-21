@@ -1,11 +1,11 @@
-name: Flutter Setup (Generate Gradle)
+name: Flutter Build APK
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  setup:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,8 +21,20 @@ jobs:
       - name: Flutter doctor
         run: flutter doctor -v
 
-      - name: Generate Android & Gradle files (FIXED)
+      # 🔹 Gradle + Android files generate (safe)
+      - name: Generate Android & Gradle files
         run: flutter create . --project-name urdu_english_keyboard
 
-      - name: Show android folder
-        run: ls -R android
+      - name: Get dependencies
+        run: flutter pub get
+
+      # 🔥 APK BUILD
+      - name: Build debug APK
+        run: flutter build apk --debug
+
+      # 📦 APK upload (downloadable)
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: urdu-english-keyboard-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
