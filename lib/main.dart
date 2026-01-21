@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'keyboard/keyboard_controller.dart';
-import 'keyboard/keyboard_state.dart';
-import 'layouts/urdu_layout.dart';
-import 'layouts/english_layout.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const KeyboardApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class KeyboardApp extends StatelessWidget {
+  const KeyboardApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,76 +26,105 @@ class KeyboardScreen extends StatefulWidget {
 }
 
 class _KeyboardScreenState extends State<KeyboardScreen> {
-  final KeyboardController controller = KeyboardController();
+  static const MethodChannel _channel =
+      MethodChannel('urdu_english_keyboard');
+
+  bool isUrdu = true;
+
+  final List<String> urduKeys = [
+    'ا','ب','ت','ث','ج','ح','خ',
+    'د','ر','ز','س','ش','ص',
+    'ط','ع','ف','ق','ک','ل',
+    'م','ن','و','ہ','ی'
+  ];
+
+  final List<String> englishKeys = [
+    'q','w','e','r','t','y','u',
+    'i','o','p','a','s','d',
+    'f','g','h','j','k','l',
+    'z','x','c','v','b','n','m'
+  ];
+
+  void _sendText(String text) {
+    _channel.invokeMethod('sendText', {'text': text});
+  }
+
+  void _backspace() {
+    _channel.invokeMethod('backspace');
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(height: 60),
+    final keys = isUrdu ? urduKeys : englishKeys;
 
-          /// 🔹 typing area
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                controller.text,
-                style: const TextStyle(fontSize: 18),
+    return Scaffold(
+      backgroundColor: const Color(0xFF111111),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Top bar
+            Container(
+              height: 45,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              color: Colors.black,
+              child: Row(
+                children: [
+                  Text(
+                    isUrdu ? 'Urdu' : 'English',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.language, color: Colors.white),
+                    onPressed: () {
+                      setState(() {
+                        isUrdu = !isUrdu;
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.backspace, color: Colors.white),
+                    onPressed: _backspace,
+                  ),
+                ],
               ),
             ),
-          ),
 
-          const Spacer(),
-
-          /// 🔹 keyboard
-          _buildKeyboard(),
-        ],
+            // Keys
+            Expanded(
+              child: GridView.builder(
+                padding: const EdgeInsets.all(6),
+                gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 7,
+                  mainAxisSpacing: 6,
+                  crossAxisSpacing: 6,
+                ),
+                itemCount: keys.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () => _sendText(keys[index]),
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1E1E1E),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        keys[index],
+                        style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  Widget _buildKeyboard() {
-    if (controller.state.language == KeyboardLanguage.urdu) {
-      return UrduKeyboard(
-        onKeyTap: _onKeyTap,
-        onBackspace: _onBackspace,
-        onSpace: _onSpace,
-        onGlobePressed: _onGlobePressed,
-      );
-    } else {
-      return EnglishKeyboard(
-        onKeyTap: _onKeyTap,
-        onBackspace: _onBackspace,
-        onSpace: _onSpace,
-        onGlobePressed: _onGlobePressed,
-      );
-    }
-  }
-
-  void _onKeyTap(String key) {
-    controller.onKeyPressed(key);
-    setState(() {});
-  }
-
-  void _onSpace() {
-    controller.onSpace();
-    setState(() {});
-  }
-
-  void _onBackspace() {
-    controller.onBackspace();
-    setState(() {});
-  }
-
-  void _onGlobePressed() {
-    controller.onLanguageSwitch();
-    setState(() {});
   }
 }
