@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <input-method xmlns:android="http://schemas.android.com/apk/res/android">
     <subtype
-        android:label="Urdu English Keyboard"
-        android:imeSubtypeMode="keyboard"
+        android:label="Urdu / English"
         android:imeSubtypeLocale="ur"
-        android:isAsciiCapable="true" />
+        android:mode="keyboard" />
 </input-method>
