@@ -2,26 +2,30 @@ import 'keyboard_state.dart';
 
 class KeyboardController {
   final KeyboardState _state = KeyboardState();
+  String _text = "";
 
   KeyboardState get state => _state;
+  String get text => _text;
 
-  /// 🌐 Globe button
   void onLanguageSwitch() {
     _state.toggleLanguage();
   }
 
-  /// ⇧ Shift key
-  void onShiftPressed() {
-    _state.toggleShift();
+  void onKeyPressed(String key) {
+    _text += key;
   }
 
-  /// Key press handler
-  String onKeyPressed(String key) {
-    if (_state.language == KeyboardLanguage.english) {
-      return _state.isShiftOn ? key.toUpperCase() : key.toLowerCase();
-    }
+  void onSpace() {
+    _text += " ";
+  }
 
-    // Urdu layout keys already mapped
-    return key;
+  void onBackspace() {
+    if (_text.isNotEmpty) {
+      _text = _text.substring(0, _text.length - 1);
+    }
+  }
+
+  void clear() {
+    _text = "";
   }
 }
