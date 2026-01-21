@@ -1,4 +1,5 @@
-package your.package.name
+package your.package.name.
+com.shoaib.urdu_english_keyboard
 
 import android.inputmethodservice.InputMethodService
 import android.view.View
