@@ -21,18 +21,22 @@ jobs:
       - name: Flutter doctor
         run: flutter doctor -v
 
-      # 🔹 Gradle + Android files generate (safe)
-      - name: Generate Android & Gradle files
-        run: flutter create . --project-name urdu_english_keyboard
+      # ✅ Clean old broken android config
+      - name: Flutter clean
+        run: flutter clean
+
+      # ✅ Regenerate Android / Gradle safely
+      - name: Recreate Android project
+        run: |
+          rm -rf android
+          flutter create . --project-name urdu_english_keyboard
 
       - name: Get dependencies
         run: flutter pub get
 
-      # 🔥 APK BUILD
       - name: Build debug APK
         run: flutter build apk --debug
 
-      # 📦 APK upload (downloadable)
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
