@@ -15,13 +15,14 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          channel: stable
+          cache: true
 
       - name: Flutter doctor
-        run: flutter doctor
+        run: flutter doctor -v
 
-      - name: Generate missing Android & Gradle files
+      - name: Generate Android & Gradle files
         run: flutter create .
 
-      - name: Show android folder
+      - name: List android folder
         run: ls -R android
