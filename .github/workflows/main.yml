@@ -1,0 +1,27 @@
+name: Flutter Setup (Generate Gradle)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Flutter doctor
+        run: flutter doctor
+
+      - name: Generate missing Android & Gradle files
+        run: flutter create .
+
+      - name: Show android folder
+        run: ls -R android
