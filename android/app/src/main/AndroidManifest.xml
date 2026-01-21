@@ -1,11 +1,10 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shoaib.urdu_english_keyboard">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:label="Urdu English Keyboard"
         android:icon="@mipmap/ic_launcher">
 
-        <!-- ✅ Flutter v2 embedding declaration -->
+        <!-- Flutter v2 embedding -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
