@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'keyboard/keyboard_controller.dart';
+import 'keyboard/keyboard_state.dart';
 import 'layouts/urdu_layout.dart';
 import 'layouts/english_layout.dart';
 
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: KeyboardScreen(),
       debugShowCheckedModeBanner: false,
+      home: KeyboardScreen(),
     );
   }
 }
@@ -34,17 +35,28 @@ class _KeyboardScreenState extends State<KeyboardScreen> {
     return Scaffold(
       body: Column(
         children: [
+          const SizedBox(height: 60),
 
-          /// 🔹 TEXT AREA (just for testing)
-          const SizedBox(height: 80),
-          const Text(
-            "Typing Area",
-            style: TextStyle(fontSize: 18),
+          /// 🔹 typing area
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                controller.text,
+                style: const TextStyle(fontSize: 18),
+              ),
+            ),
           ),
 
           const Spacer(),
 
-          /// 🔹 KEYBOARD AREA
+          /// 🔹 keyboard
           _buildKeyboard(),
         ],
       ),
@@ -52,21 +64,40 @@ class _KeyboardScreenState extends State<KeyboardScreen> {
   }
 
   Widget _buildKeyboard() {
-    /// 🔁 یہی وہ جگہ ہے جہاں language decide ہوتی ہے
     if (controller.state.language == KeyboardLanguage.urdu) {
       return UrduKeyboard(
+        onKeyTap: _onKeyTap,
+        onBackspace: _onBackspace,
+        onSpace: _onSpace,
         onGlobePressed: _onGlobePressed,
       );
     } else {
       return EnglishKeyboard(
+        onKeyTap: _onKeyTap,
+        onBackspace: _onBackspace,
+        onSpace: _onSpace,
         onGlobePressed: _onGlobePressed,
       );
     }
   }
 
-  /// 🌐 Globe button handler
+  void _onKeyTap(String key) {
+    controller.onKeyPressed(key);
+    setState(() {});
+  }
+
+  void _onSpace() {
+    controller.onSpace();
+    setState(() {});
+  }
+
+  void _onBackspace() {
+    controller.onBackspace();
+    setState(() {});
+  }
+
   void _onGlobePressed() {
-    controller.onLanguageSwitch();   // LOGIC change
-    setState(() {});                 // UI refresh
+    controller.onLanguageSwitch();
+    setState(() {});
   }
 }
