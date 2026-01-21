@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="your.package.name">
-
+    package="your.package.name"> 
+    com.shoaib.urdu_english_keyboard
     <application
         android:label="Urdu English Keyboard"
         android:icon="@mipmap/ic_launcher">
