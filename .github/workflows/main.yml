@@ -18,18 +18,18 @@ jobs:
           channel: stable
           cache: true
 
+      # ✅ Create FULL Flutter app (first time)
+      - name: Create Flutter App Structure
+        run: flutter create urdu_english_keyboard
+
+      - name: Move project files to root
+        run: |
+          shopt -s dotglob
+          mv urdu_english_keyboard/* .
+          rm -rf urdu_english_keyboard
+
       - name: Flutter doctor
         run: flutter doctor -v
-
-      # ✅ Clean old broken android config
-      - name: Flutter clean
-        run: flutter clean
-
-      # ✅ Regenerate Android / Gradle safely
-      - name: Recreate Android project
-        run: |
-          rm -rf android
-          flutter create . --project-name urdu_english_keyboard
 
       - name: Get dependencies
         run: flutter pub get
