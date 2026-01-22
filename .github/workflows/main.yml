@@ -1,14 +1,11 @@
 name: Android Build
 
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
+on: [push, workflow_dispatch]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v4
     
@@ -16,17 +13,30 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: '11'
-        distribution: 'temurin'
-
-    - name: Grant execute permission
-      run: chmod +x gradlew
-
-    - name: Build APK
+    
+    - name: DOWNLOAD GRADLE WRAPPER JAR
+      run: |
+        # 1. ڈائریکٹری بنائیں
+        mkdir -p gradle/wrapper
+        
+        # 2. JAR فائل ڈاؤن لوڈ کریں
+        echo "Downloading gradle-wrapper.jar..."
+        curl -L "https://github.com/gradle/gradle/releases/download/v8.2.0/gradle-wrapper-8.2.jar" -o gradle/wrapper/gradle-wrapper.jar
+        
+        # 3. gradlew اسکرپٹ بنائیں
+        echo '#!/bin/sh' > gradlew
+        echo 'exec java -jar gradle/wrapper/gradle-wrapper.jar "$@"' >> gradlew
+        chmod +x gradlew
+        
+        # 4. چیک کریں
+        ls -la gradle/wrapper/
+    
+    - name: BUILD APK
       run: |
         ./gradlew clean
         ./gradlew assembleDebug --stacktrace
-
-    - name: Upload APK
+    
+    - name: UPLOAD APK
       uses: actions/upload-artifact@v4
       with:
         name: urdu-keyboard-apk
