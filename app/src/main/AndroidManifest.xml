@@ -11,9 +11,8 @@
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
             <meta-data
-           android:name="android.view.im.emoji"
-           android:value="true" />
-
+                android:name="android.view.im.emoji"
+                android:value="true" />
                 android:name="android.view.im"
                 android:resource="@xml/method" />
         </service>
