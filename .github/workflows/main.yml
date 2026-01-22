@@ -1,43 +1,37 @@
-name: Android Build
+name: Android CI/CD
 
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup JDK 11
-      uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-    
-    - name: DOWNLOAD GRADLE WRAPPER JAR
-      run: |
-        # 1. ڈائریکٹری بنائیں
-        mkdir -p gradle/wrapper
-        
-        # 2. JAR فائل ڈاؤن لوڈ کریں
-        echo "Downloading gradle-wrapper.jar..."
-        curl -L "https://github.com/gradle/gradle/releases/download/v8.2.0/gradle-wrapper-8.2.jar" -o gradle/wrapper/gradle-wrapper.jar
-        
-        # 3. gradlew اسکرپٹ بنائیں
-        echo '#!/bin/sh' > gradlew
-        echo 'exec java -jar gradle/wrapper/gradle-wrapper.jar "$@"' >> gradlew
-        chmod +x gradlew
-        
-        # 4. چیک کریں
-        ls -la gradle/wrapper/
-    
-    - name: BUILD APK
-      run: |
-        ./gradlew clean
-        ./gradlew assembleDebug --stacktrace
-    
-    - name: UPLOAD APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: urdu-keyboard-apk
-        path: app/build/outputs/apk/debug/*.apk
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Verify Gradle Wrapper
+        run: |
+          ls -l gradle/wrapper
+          java -jar gradle/wrapper/gradle-wrapper.jar --version
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
