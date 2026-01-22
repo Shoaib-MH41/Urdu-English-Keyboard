@@ -1,14 +1,13 @@
 package com.urdu.keyboard
 
-enum class KeyboardLanguage {
-    URDU, ENGLISH
+enum class KeyboardMode {
+    URDU, ENGLISH, SYMBOLS, EMOJI
 }
 
 object KeyboardState {
-    var currentLanguage = KeyboardLanguage.URDU
+    var currentMode = KeyboardMode.URDU
     
-    fun toggleLanguage() {
-        currentLanguage = if (currentLanguage == KeyboardLanguage.URDU) 
-            KeyboardLanguage.ENGLISH else KeyboardLanguage.URDU
+    fun setMode(mode: KeyboardMode) {
+        currentMode = mode
     }
 }
