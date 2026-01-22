@@ -1,4 +1,4 @@
-name: Android Build
+name: Android CI/CD
 
 on:
   push:
@@ -11,46 +11,26 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup JDK 11
+    - name: set up JDK 17
       uses: actions/setup-java@v4
       with:
-        java-version: '11'
+        java-version: '17'
         distribution: 'temurin'
+        cache: gradle
 
-    - name: Create Missing Gradle Files
-      run: |
-        # gradle/wrapper ڈائریکٹری بنائیں
-        mkdir -p gradle/wrapper
-        
-        # gradle-wrapper.properties فائل بنائیں
-        cat > gradle/wrapper/gradle-wrapper.properties << 'EOF'
-        distributionBase=GRADLE_USER_HOME
-        distributionPath=wrapper/dists
-        distributionUrl=https\://services.gradle.org/distributions/gradle-8.2-bin.zip
-        networkTimeout=10000
-        zipStoreBase=GRADLE_USER_HOME
-        zipStorePath=wrapper/dists
-        EOF
-        
-        # gradlew script ڈاؤن لوڈ کریں
-        curl -L https://raw.githubusercontent.com/gradle/gradle/v8.2.0/gradlew -o gradlew
-        chmod +x gradlew
-        
-        # gradlew.bat ڈاؤن لوڈ کریں
-        curl -L https://raw.githubusercontent.com/gradle/gradle/v8.2.0/gradlew.bat -o gradlew.bat
-        
-        # wrapper.jar ڈاؤن لوڈ کریں
-        curl -L https://github.com/gradle/gradle/releases/download/v8.2.0/gradle-8.2-bin.zip -o gradle.zip
-        unzip -p gradle.zip gradle-8.2/lib/gradle-wrapper-8.2.jar > gradle/wrapper/gradle-wrapper.jar
-        rm gradle.zip
+    - name: Setup Gradle
+      # یہ کمانڈ خودکار طریقے سے گریڈل اور جار فائل سیٹ اپ کر دے گی
+      uses: gradle/gradle-build-action@v2
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: |
-        ./gradlew clean
-        ./gradlew assembleDebug --stacktrace
+      # یہاں ہم براہ راست گریڈل کمانڈ استعمال کریں گے
+      run: gradle assembleDebug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: app-debug-apk
-        path: app/build/outputs/apk/debug/*.apk
+        name: app-debug
+        path: app/build/outputs/apk/debug/app-debug.apk
