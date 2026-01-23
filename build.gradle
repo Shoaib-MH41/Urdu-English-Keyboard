@@ -10,4 +10,9 @@ buildscript {
     }
 }
 
-// یہاں اب کچھ لکھنے کی ضرورت نہیں کیونکہ یہ settings.gradle میں ہینڈل ہوگا
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
