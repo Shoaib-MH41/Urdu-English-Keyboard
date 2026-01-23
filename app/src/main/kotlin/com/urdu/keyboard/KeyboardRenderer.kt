@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
-import com.urdu.keyboard.R
 
 class KeyboardRenderer(private val context: Context, private val service: UrduInputService) {
 
@@ -22,23 +21,26 @@ class KeyboardRenderer(private val context: Context, private val service: UrduIn
             val key = LayoutInflater.from(context).inflate(R.layout.key_item, row, false) as Button
             key.text = char
             
-            // بٹن کے کام کرنے کی منطق (Logic)
             key.setOnClickListener {
                 when (char) {
-                    "🌐" -> service.onLanguageChange() // زبان بدلنا
-                    "⌫" -> service.deleteChar()      // بیک اسپیس
-                    "Space" -> service.sendKey(" ")   // اسپیس
-                    "Enter" -> service.handleEnter()  // اگلی لائن
-                    else -> service.sendKey(char)     // عام حروف (ا، ب، c، d)
+                    "🌐" -> service.onLanguageChange() 
+                    "⌫" -> service.deleteChar()      
+                    "Space" -> service.sendKey(" ")   
+                    "Enter" -> service.handleEnter()  
+                    else -> service.sendKey(char)     
                 }
             }
             
-            // اسپیس بار کو تھوڑا چوڑا دکھانے کے لیے (اگر ضرورت ہو)
+            // بٹن کا سائز سیٹ کریں
+            val params = key.layoutParams as LinearLayout.LayoutParams
             if (char == "Space") {
-                val params = key.layoutParams as LinearLayout.LayoutParams
-                params.weight = 3.0f // اسپیس بار کو 3 گنا جگہ دیں
-                key.layoutParams = params
+                params.weight = 4.0f 
+            } else if (char == "Enter" || char == "⌫") {
+                params.weight = 1.5f
+            } else {
+                params.weight = 1.0f
             }
+            key.layoutParams = params
 
             row.addView(key)
         }
