@@ -5,6 +5,7 @@ class KeyboardController(private val service: UrduInputService) {
         if (text == "Switch") {
             service.onLanguageChange()
         } else {
+            // اب سروس کے اندر یہ فنکشن موجود ہے
             service.sendKey(text)
         }
     }
