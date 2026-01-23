@@ -1,14 +1,22 @@
 package com.urdu.keyboard
 
-// زبان کی اقسام
-enum class KeyboardLanguage { URDU, ENGLISH }
+// تمام ممکنہ موڈز (زبانیں اور دیگر)
+enum class KeyboardMode {
+    URDU, ENGLISH, SYMBOLS, EMOJI
+}
 
-// کی بورڈ کی موجودہ حالت کو سنبھالنے کے لیے
 object KeyboardState {
-    var currentLanguage = KeyboardLanguage.URDU
-
+    // ڈیفالٹ موڈ اردو رکھیں
+    var currentMode = KeyboardMode.URDU
+    
+    // زبان تبدیل کرنے کے لیے (اردو <-> انگلش)
     fun toggleLanguage() {
-        currentLanguage = if (currentLanguage == KeyboardLanguage.URDU) 
-            KeyboardLanguage.ENGLISH else KeyboardLanguage.URDU
+        currentMode = if (currentMode == KeyboardMode.URDU) 
+            KeyboardMode.ENGLISH else KeyboardMode.URDU
+    }
+
+    // مخصوص موڈ سیٹ کرنے کے لیے (مثلاً ایموجی یا سمبلز)
+    fun setMode(mode: KeyboardMode) {
+        currentMode = mode
     }
 }
