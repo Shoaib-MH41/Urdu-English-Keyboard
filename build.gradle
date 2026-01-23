@@ -1,18 +1,13 @@
+// Top-level build file
 buildscript {
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        // یہ لائن اینڈرائیڈ پلگ ان کا ورژن متعین کرتی ہے
         classpath "com.android.tools.build:gradle:8.1.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20"
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+// یہاں اب کچھ لکھنے کی ضرورت نہیں کیونکہ یہ settings.gradle میں ہینڈل ہوگا
