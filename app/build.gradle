@@ -1,15 +1,8 @@
-plugins {
-    // ورژن نمبر یہاں شامل کرنے سے 'Plugin not found' کا مسئلہ حل ہو جائے گا
-    id 'com.android.application' version '8.1.1' apply false
-    id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
-}
-
-// اب ان پلگ انز کو اپلائی کریں
+// پلگ انز کو بغیر ورژن کے اپلائی کریں
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    // نئے گریڈل میں '=' کا استعمال زیادہ مستحکم ہے
     namespace = "com.urdu.keyboard"
     compileSdk = 34
 
@@ -36,12 +29,9 @@ android {
 }
 
 dependencies {
-    // بریکٹ () کا استعمال گریڈل کے 'module' والے ارر کو روکتا ہے
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    
-    // اشتہارات کے لیے AdMob لائبریری
     implementation("com.google.android.gms:play-services-ads:22.6.0")
 }
