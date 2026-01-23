@@ -1,43 +1,24 @@
-name: Android Build
+name: Build APK
 
-on: [push, workflow_dispatch]
+on: [workflow_dispatch]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
+    
     - uses: actions/checkout@v4
     
-    - name: Setup JDK 11
-      uses: actions/setup-java@v4
+    - uses: actions/setup-java@v4
       with:
         java-version: '11'
     
-    - name: DOWNLOAD GRADLE WRAPPER JAR
-      run: |
-        # 1. ڈائریکٹری بنائیں
+    - run: |
+        # خودکار gradle setup
         mkdir -p gradle/wrapper
-        
-        # 2. JAR فائل ڈاؤن لوڈ کریں
-        echo "Downloading gradle-wrapper.jar..."
-        curl -L "https://github.com/gradle/gradle/releases/download/v8.2.0/gradle-wrapper-8.2.jar" -o gradle/wrapper/gradle-wrapper.jar
-        
-        # 3. gradlew اسکرپٹ بنائیں
-        echo '#!/bin/sh' > gradlew
-        echo 'exec java -jar gradle/wrapper/gradle-wrapper.jar "$@"' >> gradlew
+        echo 'distributionUrl=https://services.gradle.org/distributions/gradle-8.2-bin.zip' > gradle/wrapper/gradle-wrapper.properties
+        curl -L https://github.com/gradle/gradle/releases/download/v8.2.0/gradle-wrapper-8.2.jar -o gradle/wrapper/gradle-wrapper.jar
+        echo 'java -jar gradle/wrapper/gradle-wrapper.jar $@' > gradlew
         chmod +x gradlew
         
-        # 4. چیک کریں
-        ls -la gradle/wrapper/
-    
-    - name: BUILD APK
-      run: |
-        ./gradlew clean
-        ./gradlew assembleDebug --stacktrace
-    
-    - name: UPLOAD APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: urdu-keyboard-apk
-        path: app/build/outputs/apk/debug/*.apk
+        ./gradlew assembleDebug
