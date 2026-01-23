@@ -1,34 +1,38 @@
-name: Direct Gradle Build
+name: Android CI/CD
 
-on: [workflow_dispatch]
+on:
+  push:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Install and Use Gradle Directly
-      run: |
-        # براہ راست Gradle سے build کریں (wrapper کی ضرورت نہیں)
-        
-        # 1. Gradle 8.2 ڈاؤنلوڈ اور انسٹال کریں
-        wget https://services.gradle.org/distributions/gradle-8.2-bin.zip
-        unzip gradle-8.2-bin.zip
-        export GRADLE_HOME=$(pwd)/gradle-8.2
-        export PATH="$GRADLE_HOME/bin:$PATH"
-        
-        # 2. براہ راست Gradle کمانڈز چلائیں
-        $GRADLE_HOME/bin/gradle clean
-        $GRADLE_HOME/bin/gradle assembleDebug
-        
-        # APK کی لوکیشن
-        echo "APK generated at: app/build/outputs/apk/debug/"
-        ls -la app/build/outputs/apk/debug/
-    
+
+    - name: set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Setup Gradle and Generate Wrapper
+      # یہ ایکشن خود بخود گریڈل انسٹال کرے گا اور جار فائل بنا دے گا
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: 8.1.1 # یہ آپ کے پروجیکٹ کے مطابق ورژن سیٹ کر دے گا
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build with Gradle
+      # اب یہ گریڈل کی کمانڈ کو صحیح طرح پہچانے گا
+      run: ./gradlew assembleDebug
+
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: direct-build-apk
-        path: app/build/outputs/apk/debug/*.apk
+        name: app-debug
+        path: app/build/outputs/apk/debug/app-debug.apk
