@@ -18,21 +18,24 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    - name: Setup Gradle and Generate Wrapper
-      # یہ ایکشن خود بخود گریڈل انسٹال کرے گا اور جار فائل بنا دے گا
+    - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
       with:
-        gradle-version: 8.1.1 # یہ آپ کے پروجیکٹ کے مطابق ورژن سیٹ کر دے گا
+        # اگر 8.1.1 میں مسئلہ آ رہا ہے تو اسے سسٹم کے ڈیفالٹ پر چھوڑنا بہتر ہے
+        # یا اپنے پروجیکٹ کی gradle-wrapper.properties والا ورژن استعمال کریں
+        cache-encryption-key: ${{ secrets.Gradle_Cache_Key }}
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      # اب یہ گریڈل کی کمانڈ کو صحیح طرح پہچانے گا
-      run: ./gradlew assembleDebug
+      # یہاں --stacktrace شامل کیا ہے تاکہ اگر بلڈ فیل ہو تو وجہ صاف پتہ چلے
+      run: ./gradlew assembleDebug --stacktrace
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
         path: app/build/outputs/apk/debug/app-debug.apk
+        # اگر فائل نہ ملے تو بلڈ فیل کر دے تاکہ آپ کو پتہ چل جائے
+        if-no-files-found: error
