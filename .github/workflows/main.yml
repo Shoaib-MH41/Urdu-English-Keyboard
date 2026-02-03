@@ -18,11 +18,10 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    - name: Setup Gradle and Generate Wrapper
-      # یہ ایکشن خود بخود گریڈل انسٹال کرے گا اور جار فائل بنا دے گا
+    - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
-      with:
-        gradle-version: 8.0 # یہ آپ کے پروجیکٹ کے مطابق ورژن سیٹ کر دے گا
+      # یہاں سے 'with' اور 'gradle-version' ہٹا دیں
+      # یہ خود بخود آپ کے پروجیکٹ کی gradle-wrapper.properties سے ورژن اٹھا لے گا
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
