@@ -20,14 +20,14 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
-      # یہاں سے 'with' اور 'gradle-version' ہٹا دیں
-      # یہ خود بخود آپ کے پروجیکٹ کی gradle-wrapper.properties سے ورژن اٹھا لے گا
+      with:
+        gradle-version: wrapper # یہ فائل سے ورژن اٹھائے گا
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      # اب یہ گریڈل کی کمانڈ کو صحیح طرح پہچانے گا
+      # ./gradlew کا استعمال کریں تاکہ wrapper ہی چلے
       run: ./gradlew assembleDebug
 
     - name: Upload APK
