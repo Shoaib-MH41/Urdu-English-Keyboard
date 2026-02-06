@@ -7,13 +7,13 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="شاندار اردو کی بورڈ"
-        android:theme="@style/Theme.App">
+        android:theme="@style/Theme.ImeSafe">
 
-        <!-- SETTINGS / LAUNCHER ACTIVITY -->
+        <!-- LAUNCHER ACTIVITY (ONLY FOR OPENING APP) -->
         <activity
             android:name=".SettingsActivity"
             android:exported="true"
-            android:label="شاندار اردو کی بورڈ">
+            android:theme="@style/Theme.ImeSafe">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,9 +23,9 @@
         <!-- INPUT METHOD SERVICE -->
         <service
             android:name=".UrduInputService"
-            android:label="شاندار اردو کی بورڈ"
             android:permission="android.permission.BIND_INPUT_METHOD"
-            android:exported="true">
+            android:exported="true"
+            android:label="شاندار اردو کی بورڈ">
 
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
@@ -34,7 +34,6 @@
             <meta-data
                 android:name="android.view.im"
                 android:resource="@xml/method" />
-
         </service>
 
     </application>
