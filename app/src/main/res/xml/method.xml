@@ -3,14 +3,15 @@
     android:icon="@mipmap/ic_launcher_round"
     android:settingsActivity="com.urdu.keyboard.SettingsActivity"
     android:supportsSwitchingToNextInputMethod="true">
-    
+
     <subtype
-        android:label="اردو (Urdu)"
-        android:imeSubtypeLocale="ur"
+        android:label="اردو"
+        android:imeSubtypeLocale="ur_PK"
         android:imeSubtypeMode="keyboard" />
-        
+
     <subtype
-        android:label="English (US)"
+        android:label="English"
         android:imeSubtypeLocale="en_US"
         android:imeSubtypeMode="keyboard" />
+
 </input-method>
