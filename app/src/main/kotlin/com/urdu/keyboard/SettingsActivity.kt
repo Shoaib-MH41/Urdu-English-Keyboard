@@ -1,37 +1,37 @@
 package com.urdu.keyboard
 
+import android.app.Activity
 import android.os.Bundle
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Gravity
 import android.widget.LinearLayout
+import android.widget.TextView
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : Activity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // سیٹنگز کے لیے ایک سادہ لے آؤٹ
         val layout = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER
-            setPadding(50, 50, 50, 50)
+            setPadding(40, 40, 40, 40)
         }
 
         val title = TextView(this).apply {
-            text = "شاندار اردو کی بورڈ سیٹنگز"
-            textSize = 24f
+            text = "شاندار اردو کی بورڈ"
+            textSize = 22f
             gravity = Gravity.CENTER
         }
 
-        val description = TextView(this).apply {
-            text = "یہاں آپ کی بورڈ کی تھیم اور دیگر سیٹنگز بدل سکیں گے۔ ابھی یہ فیچر تیاری کے مراحل میں ہے۔"
+        val desc = TextView(this).apply {
+            text = "کی بورڈ فعال کرنے کے لیے:\n\nSettings → Languages & Input → Keyboards → Urdu Keyboard"
             textSize = 16f
             gravity = Gravity.CENTER
-            setPadding(0, 40, 0, 0)
+            setPadding(0, 30, 0, 0)
         }
 
         layout.addView(title)
-        layout.addView(description)
+        layout.addView(desc)
         setContentView(layout)
     }
 }
