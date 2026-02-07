@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.UrduKeyboard" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#2196F3</item>
-        <item name="colorPrimaryDark">#1976D2</item>
-        <item name="colorAccent">#FF4081</item>
+    <style name="Theme.ImeSafe" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/accent_color</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">@color/accent_color</item>
+
+        <item name="android:statusBarColor">#1A1A1B</item>
+        <item name="android:windowBackground">@color/kb_background</item>
     </style>
 </resources>
