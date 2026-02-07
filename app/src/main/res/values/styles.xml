@@ -2,7 +2,6 @@
 <resources>
 
     <!-- IME SAFE THEME -->
-    <style name="Theme.ImeSafe" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
     </style>
