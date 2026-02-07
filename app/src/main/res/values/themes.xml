@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Theme.ImeSafe" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/accent_color</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">@color/accent_color</item>
-
         <item name="android:statusBarColor">#1A1A1B</item>
         <item name="android:windowBackground">@color/kb_background</item>
+
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
     </style>
+
 </resources>
